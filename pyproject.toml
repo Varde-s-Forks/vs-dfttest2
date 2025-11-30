@@ -1,0 +1,21 @@
+[build-system]
+requires = ["hatchling>=1.27.0"]
+build-backend = "hatchling.build"
+
+[project]
+name = "dfttest2-script"
+description = "Auto-packaged version of upstream dfttest script"
+requires-python = ">=3.8"
+license = "GPL-3.0-or-later"
+license-files = ["LICENSE"]
+dependencies = ["VapourSynth"]
+dynamic = ["version"]
+
+[tool.hatch.version]
+path = "dfttest2.py"
+
+[tool.hatch.build.targets.sdist]
+include = ["dfttest2.py", "LICENSE", "README"]
+
+[tool.hatch.build.targets.wheel]
+include = ["dfttest2.py"]
