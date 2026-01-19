@@ -508,14 +508,16 @@ struct DFTTestData {
 
     std::mutex lock;
 
+    // padded shape: (pad_height, pad_width)
+    // NOTE: must be declared before cuFFT handles so it outlives them
+    // (cuFFT handles reference this memory via cufftSetWorkArea)
+    Resource<CUdeviceptr, cuMemFreeCustom, true> d_work_area_or_padded;
+
     // 2-D or 3-D, depends on radius
     Resource<cufftHandle, cufftDestroyCustom, true> rfft_handle;
     Resource<cufftHandle, cufftDestroyCustom, true> irfft_handle;
     Resource<cufftHandle, cufftDestroyCustom, true> subsampled_rfft_handle;
     Resource<cufftHandle, cufftDestroyCustom, true> subsampled_irfft_handle;
-
-    // padded shape: (pad_height, pad_width)
-    Resource<CUdeviceptr, cuMemFreeCustom, true> d_work_area_or_padded;
 
     Resource<CUmodule, cuModuleUnloadCustom> module;
     CUfunction filter_kernel;
