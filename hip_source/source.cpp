@@ -445,14 +445,15 @@ struct DFTTestData {
 
     std::mutex lock;
 
+    // padded shape: (pad_height, pad_width)
+    // (hipFFT handles reference this memory via hipfftSetWorkArea)
+    Resource<hipDeviceptr_t, hipFreeCustom> d_work_area_or_padded;
+
     // 2-D or 3-D, depends on radius
     Resource<hipfftHandle, hipfftDestroyCustom> rfft_handle;
     Resource<hipfftHandle, hipfftDestroyCustom> irfft_handle;
     Resource<hipfftHandle, hipfftDestroyCustom> subsampled_rfft_handle;
     Resource<hipfftHandle, hipfftDestroyCustom> subsampled_irfft_handle;
-
-    // padded shape: (pad_height, pad_width)
-    Resource<hipDeviceptr_t, hipFreeCustom> d_work_area_or_padded;
 
     Resource<hipModule_t, hipModuleUnloadCustom> module;
     hipFunction_t filter_kernel;
